@@ -123,11 +123,9 @@ const loginUser = async (req, res) => {
 
   const options = {
     httpOnly: true,
-    secure: true,
   };
 
   console.log(loggedInUser, accessToken, refreshToken);
-  // console.log(req);
   return res
     .status(200)
     .cookie("accessToken", accessToken, options)
@@ -140,6 +138,7 @@ const loginUser = async (req, res) => {
 };
 
 const currentUserDetails = async (req, res) => {
+
   return res.json(req.user);
 };
 
