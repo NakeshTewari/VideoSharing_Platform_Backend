@@ -2,8 +2,7 @@ import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import { VideoModel } from "../models/video.model.js";
 
 const UplaodVideo = async (req, res) => {
-  // console.log(req);
-
+  console.log(req.body);
   const cloudinary_url_array = [];
   const files = req.files;
   // console.log(files);
@@ -43,4 +42,16 @@ const UplaodVideo = async (req, res) => {
   res.json({ message: "Success" });
 };
 
-export { UplaodVideo };
+const getAllVideos = async (req, res) => {
+  const allVideos = await VideoModel.find();
+  res.status(200).json(allVideos);
+};
+
+const getVideo = async (req, res) => {
+  const videoId = req.params.id;
+
+  const video = await VideoModel.findById(videoId);
+  res.status(200).json(video);
+};
+
+export { UplaodVideo, getAllVideos, getVideo };

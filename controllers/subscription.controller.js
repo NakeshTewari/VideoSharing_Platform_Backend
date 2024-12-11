@@ -3,13 +3,14 @@ import { subscriptionModel } from "../models/subscription.model.js";
 
 const subscription = async (req, res) => {
   // get channelId from client
-  const { channelId } = req.body;
+  
+  const { channel } = req.body;
   const user = req.user;
+  console.log(channel, user);
+  
 
-  console.log(channelId);
-
-  const alreadySubscribed = await subscriptionModel.findOne({ channelId });
-  if (alreadySubscribed) return res.json("Already subscribed to this channel");
+  const alreadySubscribed = await subscriptionModel.findOne({ channel });
+  if (alreadySubscribed) return res.json({message: "Already subscribed to this channel"});
 
   const subscriptionInstance = await subscriptionModel.create({
     subscriber: user._id,
