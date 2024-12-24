@@ -12,6 +12,7 @@ const upload = multer({ dest: "uploads/images/" });
 
 const router = Router();
 
+
 router.route("/register").post(upload.single("avatar"), RegisterUser);
 router.route("/login").post(loginUser);
 

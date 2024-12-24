@@ -46,6 +46,8 @@ const generateRefreshToken = (user) => {
 };
 
 const RegisterUser = async (req, res) => {
+  
+  
   const { username, password, email, fullName } = req.body;
   console.log(req.body);
   console.log(req.file);

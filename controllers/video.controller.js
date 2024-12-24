@@ -1,5 +1,7 @@
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import { VideoModel } from "../models/video.model.js";
+import { UserModel } from "../models/user.model.js";
+import { subscriptionModel } from "../models/subscription.model.js";
 
 const UplaodVideo = async (req, res) => {
   console.log(req.body);
@@ -35,7 +37,7 @@ const UplaodVideo = async (req, res) => {
     owner: user_id,
   });
 
-  console.log(videoInstance);
+  // console.log(videoInstance);
 
   // console.log(req.files);
 
@@ -51,7 +53,23 @@ const getVideo = async (req, res) => {
   const videoId = req.params.id;
 
   const video = await VideoModel.findById(videoId);
-  res.status(200).json(video);
+  if(!video){
+    return res.status(404).json({message: "Video not found"});
+  }
+
+  const owner=await UserModel.findById(video.owner);
+  if(!owner){
+    return res.status(404).json({message: "Owner not found"});
+  }
+
+  const subscriberCount= await subscriptionModel.countDocuments({channel: video.owner});
+  const response= {
+    video,
+    ownerName: owner.fullName,
+    subscriberCount: subscriberCount,
+  }
+  // console.log(JSON.stringify(response));
+  res.status(200).json(response);
 };
 
 export { UplaodVideo, getAllVideos, getVideo };
